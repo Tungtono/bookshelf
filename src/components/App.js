@@ -1,54 +1,50 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { bookData } from './data';
 
 
-
-class App extends Component {
-
-    state = {bookState: {bookData}}
-
-    handleAddNew () {
+const App = () => {
+    const [state, setState] = useState(bookData)
+    const handleAddNew = () => {
         return (
             console.log("added new")
         )
     };
 
-    handleDelete () {
+    const handleDelete = (bookId) => {
         return (
-            console.log('deleted')
+            console.log(`deleted ${bookId}`),
+            setState(
+                prevState => prevState.filter(el => el.id != bookId)
+            )
         )
-    }
+    };
 
-    handleUpdate () {
+    const handleUpdate = () => {
         return (
-            //console.log('updated')
-            console.log(this.state)
+            console.log('updated')
         )
-    }
-
-    render() {
-        return <div>
-            <header>Logo</header>
-            <input type='text' />
-            <input type="submit" value="Search"/>
-            <div className='bookCards'>
-            {bookData.map((book) => {
-                return (
-                    <div className='bookCard' key={book.id}>
-                        <img className='coverimg' src={ book.coverimg } ></img>
-                        <div>Title: { book.title }</div>
-                        <div>Author: { book.author }</div>
-                        <div>Year: { book.year_written }</div>
-                        <div>Edition: { book.edition }</div>
-                        <button onClick={this.handleUpdate}>update</button>
-                        <button onClick={this.handleDelete}>delete</button>                        
-                    </div>
-                )
-            })}
-            </div>
-            <button onClick={ this.handleAddNew }>add new</button>
+    };
+    return <div>
+        <header>Logo</header>
+        <input type='text' />
+        <input type="submit" value="Search"/>
+        <div className='bookCards'>
+        {state.map((book) => {
+            return (
+                <div className='bookCard' key={book.id}>
+                    <img className='coverimg' src={ book.coverimg } ></img>
+                    <div>Title: { book.title }</div>
+                    <div>Author: { book.author }</div>
+                    <div>Year: { book.year_written }</div>
+                    <div>Edition: { book.edition }</div>
+                    <button onClick={handleUpdate}>update</button>
+                    <button onClick={e => handleDelete(book.id)}>delete</button>                        
+                </div>
+            )
+        })}
         </div>
-        }
+        <button onClick={handleAddNew}>add new</button>
+    </div>
 }
 
 export default App;
