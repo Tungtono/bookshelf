@@ -35,3 +35,8 @@ img {
     grid-gap: 1rem;
      
     }
+
+.addNewForm {
+    display: grid;
+    padding: 1rem;
+}
