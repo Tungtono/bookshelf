@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { bookData } from './data';
-import {nanoid} from 'nanoid'
-
+import {nanoid} from 'nanoid';
+import Modal  from "./Modal";
 const App = () => {
     const [state, setState] = useState(bookData)
     const [addFormData, setAddFormData] = useState({
@@ -11,6 +11,8 @@ const App = () => {
         edition:'',
         coverimg:''
     })
+
+
     const handleDelete = (bookId) => {
         return (
             alert(`deleted the book number ${bookId}`),
@@ -18,6 +20,13 @@ const App = () => {
                 prevState => prevState.filter(el => el.id !== bookId)
             )
         )
+    };
+
+    const handleAddNewChange = ( e ) => {
+        const newFormData = {...addFormData};
+        newFormData[e.target.name] = e.target.value;
+        setAddFormData(newFormData);
+
     };
 
     const handleAddNew = (e) => {
@@ -34,21 +43,27 @@ const App = () => {
         }
         const newBooks = [...state, newBook]
         setState(newBooks)
-        console.log(state)
     };
 
-    const handleAddNewChange = ( e ) => {
-        const newFormData = {...addFormData};
-        newFormData[e.target.name] = e.target.value;
-        setAddFormData(newFormData);
+    // const [updateFormData, setUpdateFormData] = useState({
+    //     id: '',
+    //     title: "",
+    //     author:'',
+    //     year_written:'',
+    //     edition:'',
+    //     coverimg:''
+    // })
+    // const handleUpdateChange = ( e ) => {
+    //     const updatedFormData = {};
+    //     updatedFormData[e.target.name] = e.target.value;
+    //     setUpdateFormData(updatedFormData);
+    // }
+    // const handleUpdateBook = (e) => {
+    //     e.preventDefault();
+    //     const newState = [...state, updateFormData];
+    //     setState(newState)
+    // }
 
-    };
-
-    const handleUpdate = () => {
-        return (
-            console.log('updated')
-        )
-    };
     return <div>
         <header>Logo</header>
         <input type='text' />
@@ -62,7 +77,7 @@ const App = () => {
                         <div>Author: {book.author}</div>
                         <div>Year: {book.year_written}</div>
                         <div>Edition: {book.edition}</div>
-                        <button onClick={handleUpdate}>update</button>
+                        <Modal item={book}></Modal>
                         <button onClick={e => handleDelete(book.id)}>delete</button>
                     </div>
                 )
@@ -77,6 +92,8 @@ const App = () => {
             <input id="submit" type='submit'></input>
         </form>
     </div>
-}
+};
+
+
 
 export default App;
