@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { bookData } from './data';
 import {nanoid} from 'nanoid';
 import Modal  from "./Modal";
+
 const App = () => {
     const [state, setState] = useState(bookData)
     const [addFormData, setAddFormData] = useState({
@@ -58,16 +59,22 @@ const App = () => {
     //     updatedFormData[e.target.name] = e.target.value;
     //     setUpdateFormData(updatedFormData);
     // }
-    // const handleUpdateBook = (e) => {
-    //     e.preventDefault();
-    //     const newState = [...state, updateFormData];
-    //     setState(newState)
-    // }
+    const handleUpdateBook = (updateFormData) => {
+        // e.preventDefault();
+        // const newState = [...state, updateFormData.item];
+        const newState = state.map((bookItem) => {
+            if (bookItem.id === updateFormData.item.id) {
+                return updateFormData.item
+            }
+            return bookItem
+        })
+        setState(newState)
+    }
 
     return <div>
         <header>Logo</header>
-        <input type='text' />
-        <input type="submit" value="Search" />
+        {/* <input type='text' /> */}
+        {/* <input type="submit" value="Search" /> */}
         <div className='bookCards'>
             {state.map((book) => {
                 return (
@@ -77,7 +84,10 @@ const App = () => {
                         <div>Author: {book.author}</div>
                         <div>Year: {book.year_written}</div>
                         <div>Edition: {book.edition}</div>
-                        <Modal item={book}></Modal>
+                        <Modal 
+                            item={book}
+                            handleUpdateBook={handleUpdateBook}
+                        />
                         <button onClick={e => handleDelete(book.id)}>delete</button>
                     </div>
                 )
@@ -89,7 +99,7 @@ const App = () => {
             <label >Year written<input id="year_written" type='text' name="year_written" onChange={(e) => handleAddNewChange( e)} placeholder='2022' /></label>
             <label >Edition<input id="edition" type='text' name="edition" onChange={(e) => handleAddNewChange( e)} placeholder='1st' /></label>
             <label >Cover Image URL<input id="coverimg" type='text' name="coverimg" onChange={(e) => handleAddNewChange( e)} placeholder='https://warnercnr.colostate.edu/wp-content/uploads/sites/2/2017/04/shutterstock_428626417.jpg' /></label>
-            <input id="submit" type='submit'></input>
+            <button id="submit" type='submit'>Submit</button>
         </form>
     </div>
 };
