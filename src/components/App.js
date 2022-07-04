@@ -70,12 +70,14 @@ const App = () => {
         }
     ]
 
-    useEffect(() => {
+    const fetchData = () => {
         fetch('http://localhost:5000/books')
         .then(res => res.json())
         .then((actualData) => setState(actualData))
         .catch((err) => err)
-    }, [])
+    } 
+
+    useEffect(fetchData, [])
 
     const handleDelete = (bookId) => {
         fetch(`http://localhost:5000/books/${bookId}`, {
@@ -86,7 +88,7 @@ const App = () => {
               },
         })
         // .then(res => res.json())
-        .then((actualData) => alert(`deleted book number ${bookId}`))
+        .then(fetchData)
         .catch((err) => err)
     };
 
@@ -99,7 +101,7 @@ const App = () => {
               },
             body: JSON.stringify(newBook)
         })
-        .then((actualData) => alert(`added book number ${newBook.id}`))
+        .then(fetchData)
         .catch((err) => err)
     };
 
@@ -112,7 +114,7 @@ const App = () => {
               },
             body: JSON.stringify(updateFormData.item)
         })
-        .then((actualData) => alert(`updated book number ${updateFormData.item.id}`))
+        .then(fetchData)
         .catch((err) => err)
     }
 
