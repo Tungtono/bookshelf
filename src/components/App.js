@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UpdateBook  from "./UpdateBook";
 import AddNewBook from "./AddNewBook";
+import FilterBook from "./FilterBook";
 
 
 const App = () => {
@@ -74,7 +75,7 @@ const App = () => {
         .then(res => res.json())
         .then((actualData) => setState(actualData))
         .catch((err) => err)
-    }, [state])
+    }, [])
 
     const handleDelete = (bookId) => {
         fetch(`http://localhost:5000/books/${bookId}`, {
@@ -115,8 +116,16 @@ const App = () => {
         .catch((err) => err)
     }
 
+    const handleSearch = (searchValue) => {
+        fetch(`http://localhost:5000/books/search/${searchValue}`)
+        .then(res => res.json())
+        .then((actualData) => setState(actualData))
+        .catch((err) => err)
+    }
+
     return <div>
         <header>Logo</header>
+        <FilterBook handleSearch={handleSearch}/>
         <div className='bookCards'>
             {state.map((book) => {
                 return (
@@ -129,7 +138,7 @@ const App = () => {
                         <div>Price: ${book.price}</div>
                         <UpdateBook 
                             item={book}
-                            template={inputs}
+                            inputs={inputs}
                             handleUpdateBook={handleUpdateBook}
                         />
                         <button onClick={e => handleDelete(book.id)}>Delete</button>
