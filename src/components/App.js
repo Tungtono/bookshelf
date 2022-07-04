@@ -1,80 +1,122 @@
-import React, { useState } from "react";
-import { bookData } from './data';
-import {nanoid} from 'nanoid';
-import Modal  from "./Modal";
+import React, { useEffect, useState } from "react";
+import UpdateBook  from "./UpdateBook";
+import AddNewBook from "./AddNewBook";
+
 
 const App = () => {
-    const [state, setState] = useState(bookData)
-    const [addFormData, setAddFormData] = useState({
-        title: "",
-        author:'',
-        year_written:'',
-        edition:'',
-        coverimg:''
-    })
+    const [state, setState] = useState([])
 
+    const inputs = [
+        {
+            inputId: 'title',
+            name: 'title',
+            label: 'Title',
+            type: 'text',
+            placeholder: `Joe's adventures`,
+            required: true,
+            isValid: true,
+            isTouched: false
+        },
+        {
+            inputId: 'author',
+            name: 'author',
+            label: 'Author',
+            type: 'text',
+            placeholder: 'Joey',
+            required: true,
+            isValid: true,
+            isTouched: false
+        },
+        {
+            inputId: 'year_written',
+            name: 'year_written',
+            label: 'Year written',
+            type: 'number',
+            placeholder: '2022',
+            required: true,
+            isValid: true,
+            isTouched: false
+        },
+        {
+            inputId: 'edition',
+            name: 'edition',
+            label: 'Edition',
+            type: 'text',
+            placeholder: '1st',
+            required: true,
+            isValid: true,
+            isTouched: false
+        },
+        {
+            inputId: 'price',
+            name: 'price',
+            label: 'Price',
+            type: 'number',
+            placeholder: '1000',
+            required: true,
+            isValid: true,
+            isTouched: false
+        },
+        {
+            inputId: 'coverimg',
+            name: 'coverimg',
+            label: 'Cover Image',
+            type: 'url',
+            placeholder: 'https://purewows3.imgix.net/images/articles/2021_01/funny_books_arcenaux.png',
+            required: true,
+            isValid: true,
+            isTouched: false
+        }
+    ]
+
+    useEffect(() => {
+        fetch('http://localhost:5000/books')
+        .then(res => res.json())
+        .then((actualData) => setState(actualData))
+        .catch((err) => err)
+    }, [state])
 
     const handleDelete = (bookId) => {
-        return (
-            alert(`deleted the book number ${bookId}`),
-            setState(
-                prevState => prevState.filter(el => el.id !== bookId)
-            )
-        )
-    };
-
-    const handleAddNewChange = ( e ) => {
-        const newFormData = {...addFormData};
-        newFormData[e.target.name] = e.target.value;
-        setAddFormData(newFormData);
-
-    };
-
-    const handleAddNew = (e) => {
-        alert('added a new book');
-        e.preventDefault();
-        
-        const newBook = {
-            id: nanoid(),
-            title: addFormData.title,
-            author: addFormData.author,
-            year_written: addFormData.year_written,
-            edition: addFormData.edition,
-            coverimg: addFormData.coverimg
-        }
-        const newBooks = [...state, newBook]
-        setState(newBooks)
-    };
-
-    // const [updateFormData, setUpdateFormData] = useState({
-    //     id: '',
-    //     title: "",
-    //     author:'',
-    //     year_written:'',
-    //     edition:'',
-    //     coverimg:''
-    // })
-    // const handleUpdateChange = ( e ) => {
-    //     const updatedFormData = {};
-    //     updatedFormData[e.target.name] = e.target.value;
-    //     setUpdateFormData(updatedFormData);
-    // }
-    const handleUpdateBook = (updateFormData) => {
-        // e.preventDefault();
-        // const newState = [...state, updateFormData.item];
-        const newState = state.map((bookItem) => {
-            if (bookItem.id === updateFormData.item.id) {
-                return updateFormData.item
-            }
-            return bookItem
+        fetch(`http://localhost:5000/books/${bookId}`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+              },
         })
-        setState(newState)
+        // .then(res => res.json())
+        .then((actualData) => alert(`deleted book number ${bookId}`))
+        .catch((err) => err)
+    };
+
+    const handleAddNew = (newBook) => {
+        fetch(`http://localhost:5000/books`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+              },
+            body: JSON.stringify(newBook)
+        })
+        .then((actualData) => alert(`added book number ${newBook.id}`))
+        .catch((err) => err)
+    };
+
+    const handleUpdateBook = (updateFormData) => {
+        fetch(`http://localhost:5000/books/${updateFormData.item.id}`, {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+              },
+            body: JSON.stringify(updateFormData.item)
+        })
+        .then((actualData) => alert(`updated book number ${updateFormData.item.id}`))
+        .catch((err) => err)
     }
 
     return <div>
         <header>Logo</header>
-        {/* <input type='text' /> */}
-        {/* <input type="submit" value="Search" /> */}
         <div className='bookCards'>
             {state.map((book) => {
                 return (
@@ -84,26 +126,22 @@ const App = () => {
                         <div>Author: {book.author}</div>
                         <div>Year: {book.year_written}</div>
                         <div>Edition: {book.edition}</div>
-                        <Modal 
+                        <div>Price: ${book.price}</div>
+                        <UpdateBook 
                             item={book}
+                            template={inputs}
                             handleUpdateBook={handleUpdateBook}
                         />
-                        <button onClick={e => handleDelete(book.id)}>delete</button>
+                        <button onClick={e => handleDelete(book.id)}>Delete</button>
                     </div>
                 )
             })}
         </div>
-        <form className="addNewForm" onSubmit={(e) => handleAddNew(e)}>
-            <label >Title<input id="title" type='text' name="title" onChange={(e) => handleAddNewChange( e)} placeholder='The adventures of Joe' /></label>
-            <label >Author<input id="author" type='text' name="author" onChange={(e) => handleAddNewChange( e)} placeholder='Joe Nguyen'></input></label>
-            <label >Year written<input id="year_written" type='text' name="year_written" onChange={(e) => handleAddNewChange( e)} placeholder='2022' /></label>
-            <label >Edition<input id="edition" type='text' name="edition" onChange={(e) => handleAddNewChange( e)} placeholder='1st' /></label>
-            <label >Cover Image URL<input id="coverimg" type='text' name="coverimg" onChange={(e) => handleAddNewChange( e)} placeholder='https://warnercnr.colostate.edu/wp-content/uploads/sites/2/2017/04/shutterstock_428626417.jpg' /></label>
-            <button id="submit" type='submit'>Submit</button>
-        </form>
+        <AddNewBook 
+            inputs={inputs} 
+            handleAddNew={handleAddNew} 
+        />
     </div>
 };
-
-
 
 export default App;
