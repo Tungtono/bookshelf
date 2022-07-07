@@ -71,7 +71,7 @@ const App = () => {
     ]
 
     const fetchData = () => {
-        fetch('http://localhost:5000/books')
+        fetch('https://book-server-api.herokuapp.com/books')
         .then(res => res.json())
         .then((actualData) => setState(actualData))
         .catch((err) => err)
@@ -80,7 +80,7 @@ const App = () => {
     useEffect(fetchData, [])
 
     const handleDelete = (bookId) => {
-        fetch(`http://localhost:5000/books/${bookId}`, {
+        fetch(`https://book-server-api.herokuapp.com/books/${bookId}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
@@ -93,7 +93,7 @@ const App = () => {
     };
 
     const handleAddNew = (newBook) => {
-        fetch(`http://localhost:5000/books`, {
+        fetch(`https://book-server-api.herokuapp.com/books`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -106,7 +106,7 @@ const App = () => {
     };
 
     const handleUpdateBook = (updateFormData) => {
-        fetch(`http://localhost:5000/books/${updateFormData.item.id}`, {
+        fetch(`https://book-server-api.herokuapp.com/books/${updateFormData.item.id}`, {
             method: "PATCH",
             headers: {
                 Accept: "application/json",
@@ -119,7 +119,7 @@ const App = () => {
     }
 
     const handleSearch = (searchValue) => {
-        fetch(`http://localhost:5000/books/search/${searchValue}`)
+        fetch(`https://book-server-api.herokuapp.com/books/search/${searchValue}`)
         .then(res => res.json())
         .then((actualData) => setState(actualData))
         .catch((err) => err)
