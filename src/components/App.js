@@ -6,6 +6,7 @@ import FilterBook from "./FilterBook";
 
 const App = () => {
     const [state, setState] = useState([])
+    const baseUrl = "https://book-server-api.vercel.app"
 
     const inputs = [
         {
@@ -71,7 +72,7 @@ const App = () => {
     ]
 
     const fetchData = () => {
-        fetch('https://book-server-api.herokuapp.com/books')
+        fetch(`${baseUrl}/books`)
         .then(res => res.json())
         .then((actualData) => setState(actualData))
         .catch((err) => err)
@@ -80,7 +81,7 @@ const App = () => {
     useEffect(fetchData, [])
 
     const handleDelete = (bookId) => {
-        fetch(`https://book-server-api.herokuapp.com/books/${bookId}`, {
+        fetch(`${baseUrl}/books/${bookId}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
@@ -93,7 +94,7 @@ const App = () => {
     };
 
     const handleAddNew = (newBook) => {
-        fetch(`https://book-server-api.herokuapp.com/books`, {
+        fetch(`${baseUrl}/books`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -106,7 +107,7 @@ const App = () => {
     };
 
     const handleUpdateBook = (updateFormData) => {
-        fetch(`https://book-server-api.herokuapp.com/books/${updateFormData.item.id}`, {
+        fetch(`${baseUrl}/books/${updateFormData.item.id}`, {
             method: "PATCH",
             headers: {
                 Accept: "application/json",
@@ -119,7 +120,7 @@ const App = () => {
     }
 
     const handleSearch = (searchValue) => {
-        fetch(`https://book-server-api.herokuapp.com/books/search/${searchValue}`)
+        fetch(`${baseUrl}/books/search/${searchValue}`)
         .then(res => res.json())
         .then((actualData) => setState(actualData))
         .catch((err) => err)
