@@ -1,47 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+* {
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.4;
+    font-size: 1rem;
+}
+
+h2 {
+    text-align: center;
+}
 
 body {
-    text-align: center;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    border-radius: 6px;
+    background-color: #405cf5;
+    border-width: 0;
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 100%;
+    outline: none;
+    overflow: hidden;
+    padding: 0 25px;
+    touch-action: manipulation;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 12px;
+    font-style: italic;
 }
 
 header {
     background-color: yellow;
     font-size: 40px;
-    margin: 10px;
+    font-weight: 800;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
 }
 
-img {
-    width: 100%;
-    max-width: 100px;
+.searchForm {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
 }
 
-.bookCard {
-    border: 2px solid #e7e7e7;
-    border-radius: 4px;
-    padding: .5rem;
+.searchForm button {
+    /* margin: 0 0 0 1rem; */
+    border-radius: 0 6px 6px 0;
+}
+
+.searchForm input {
+    border-radius: 6px 0 0 6px;
 }
 
 .bookCards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-auto-rows: auto;
-    grid-gap: 1rem;
+    margin: .5rem;
 }
 
-form {
+@media (max-width: 749px) {
+    .bookCards { grid-template-columns: repeat(2, 1fr); }
+  }
+
+.bookCard {
+    border: 1px solid #e7e7e7;
+    box-shadow: inset;
     display: grid;
-    padding: 1rem;
+    border-radius: 5px;
+    padding: .5rem;
+    margin: .5rem;
 }
+
+.coverImg {
+    max-width: 100%;
+}
+
+.bookDetails {
+    max-width: 100%;
+    text-align: left;
+    margin: .2rem 0 .2rem 0;
+}
+
+.actionControl button {
+    width: 100%;
+    margin: .2rem 0 .2rem 0;
+}
+
+.actionControl input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.addNewForm {
+    width: 50%;
+    margin: 2rem auto 2rem auto;
+    /* align-items: center; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+.addNewForm input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.addNewForm button {
+    width: 100%;
+    margin: .5rem 0 .5rem 0;
+}
+
+hr.solid {
+    border-top: 3px solid #bbb;
+  }
 
 input {
-    height: 25px;
+    height: 35px;
+    border: solid 1px;
+    padding-left: .5rem;
     border-radius: 5px;
-}
-
-button {
-    height: 25px;
-    border-radius: 5px;
-}
-
-.errorMessage {
-    color: red;
+    box-sizing: border-box;
 }

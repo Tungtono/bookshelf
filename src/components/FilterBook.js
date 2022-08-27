@@ -14,8 +14,8 @@ const FilterBook = (props) => {
         props.handleSearch(searchValue)
     }
 
-    return <div className='Filter'>
-        <form onSubmit={handleSearchSubmit}>
+    return <div className='filter'>
+        <form className="searchForm" onSubmit={handleSearchSubmit}>
             <input 
             onChange={(e) => handleSearchChange(e)}
             placeholder='Enter your search term'

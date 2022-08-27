@@ -52,7 +52,10 @@ const AddNewBook = (props) => {
     };
 
     return (
-        <form className="addNewForm" onSubmit={(e) => handleAddNewSubmit(e)}>
+        <div>
+            <hr class="solid"></hr>
+            <h2>Add your favorite book here</h2>
+            <form className="addNewForm" onSubmit={(e) => handleAddNewSubmit(e)}>
             {inputs.map((input) => {
                 return (
                     <div key={input.inputId}>
@@ -72,6 +75,7 @@ const AddNewBook = (props) => {
             })}
             <button id="submit" type='submit'>Add New Book</button>
         </form>
+        </div>
     )
 };
 

@@ -43,7 +43,7 @@ function UpdateBook(props) {
     } else {
         return (
             <div className="modal">
-                <form className="addNewForm" onSubmit={handleUpdateSubmit}>
+                <form className="updateNewForm" onSubmit={handleUpdateSubmit}>
                 {inputs.map((input) => {
                 return (
                     <div key={input.inputId}>
@@ -61,9 +61,9 @@ function UpdateBook(props) {
                     </div>
                 )
             })}
-                    <input id="submit" type='submit'></input>
+                    <button id="submit" type='submit'>Save</button>
                 </form>
-                <button onClick={toggleModal}>Close</button>
+                <button style={{background: 'red'}} onClick={toggleModal}>Close</button>
             </div>  
         )
     };

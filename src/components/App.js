@@ -61,7 +61,7 @@ const App = () => {
         {
             inputId: 'coverimg',
             name: 'coverimg',
-            label: 'Cover Image',
+            label: 'Cover Image URL',
             type: 'url',
             placeholder: 'https://purewows3.imgix.net/images/articles/2021_01/funny_books_arcenaux.png',
             required: true,
@@ -125,25 +125,33 @@ const App = () => {
         .catch((err) => err)
     }
 
-    return <div>
-        <header>Logo</header>
+    const refreshPage = () => {
+        window.location.reload();
+    }
+
+    return <div className="main">
+        <header onClick={refreshPage}>The Greatest Bookshelf</header>
         <FilterBook handleSearch={handleSearch}/>
         <div className='bookCards'>
             {state.map((book) => {
                 return (
                     <div className='bookCard' key={book.id}>
-                        <img className='coverimg' alt="cover" src={book.coverimg} ></img>
-                        <div>Title: {book.title}</div>
-                        <div>Author: {book.author}</div>
-                        <div>Year: {book.year_written}</div>
-                        <div>Edition: {book.edition}</div>
-                        <div>Price: ${book.price}</div>
-                        <UpdateBook 
-                            item={book}
-                            inputs={inputs}
-                            handleUpdateBook={handleUpdateBook}
-                        />
-                        <button onClick={e => handleDelete(book.id)}>Delete</button>
+                        <img className='coverImg' alt="cover" src={book.coverimg} ></img>
+                        <div className="bookDetails">
+                            <div>Title: {book.title}</div>
+                            <div>Author: {book.author}</div>
+                            <div>Year: {book.year_written}</div>
+                            <div>Edition: {book.edition}</div>
+                            <div>Price: ${book.price}</div>
+                        </div>
+                        <div className="actionControl">
+                            <UpdateBook 
+                                item={book}
+                                inputs={inputs}
+                                handleUpdateBook={handleUpdateBook}
+                            />
+                            <button style={{background: 'red'}} onClick={e => {if(window.confirm(`Really delete this book? Can't undo tho`)){handleDelete(book.id)}}}>Delete</button>
+                        </div>
                     </div>
                 )
             })}
